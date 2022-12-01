@@ -3,6 +3,7 @@ fun main() {
     val day = Day01(lines)
 
     println("Solution part 1: ${day.part1()}")
+    println("Solution part 2: ${day.part2()}")
 }
 
 class Day01(private val lines: List<String>) : Day {
@@ -13,7 +14,8 @@ class Day01(private val lines: List<String>) : Day {
     }
 
     override fun part2(): Any {
-        TODO("Not yet implemented")
+        val elves = getElvesFromInput()
+        return elves.sortedBy { it.totalCalories }.takeLast(3).sumOf { it.totalCalories }
     }
 
     private fun getElvesFromInput() : List<Elf> {
@@ -25,7 +27,7 @@ class Day01(private val lines: List<String>) : Day {
         return elves
     }
 
-    class Elf(textRep : String, ) {
+    class Elf(textRep : String) {
         val totalCalories: Int
         init {
             var sum = 0
