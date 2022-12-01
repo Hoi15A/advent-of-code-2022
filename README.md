@@ -1,7 +1,7 @@
 # Advent of Code 2022
 
 [![Language](https://img.shields.io/badge/Language-Kotlin-purple)](https://kotlinlang.org/)
-![](https://img.shields.io/badge/stars%20⭐-0-yellow)
+![](https://img.shields.io/badge/stars%20⭐-1-yellow)
 ![](https://img.shields.io/badge/days%20completed-0-red)
 
 ## About Advent of Code
