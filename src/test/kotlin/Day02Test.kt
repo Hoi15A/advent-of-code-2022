@@ -15,5 +15,6 @@ class Day02Test {
     fun part2() {
         val day = Day02(lines)
 
+        assertEquals(12, day.part2())
     }
 }

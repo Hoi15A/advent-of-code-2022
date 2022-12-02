@@ -14,14 +14,8 @@ class Day02(private val lines: List<String>) : Day {
         SCISSORS("C", "Z", 3);
     }
 
-    private fun evaluateRPSRound(opponentTxt: String, myTxt: String): Int {
+    private fun evaluateRPSRound(opponent: RPS, me: RPS): Int {
         var bonusPoints = 0
-        var opponent: RPS? = null
-        var me: RPS? = null
-        for (value in RPS.values()) {
-            if (value.opTxt == opponentTxt) opponent = value
-            if (value.meTxt == myTxt) me = value
-        }
 
         // DRAW
         if (me == opponent) {
@@ -36,8 +30,14 @@ class Day02(private val lines: List<String>) : Day {
             bonusPoints = 6
         }
 
+        return me.value + bonusPoints
+    }
 
-        return me!!.value + bonusPoints
+    private fun mapStrToRPS(str: String): RPS? {
+        for (value in RPS.values()) {
+            if (value.opTxt == str || value.meTxt == str) return value
+        }
+        return null
     }
 
     override fun part1(): Any {
@@ -45,16 +45,46 @@ class Day02(private val lines: List<String>) : Day {
 
         for (line in lines) {
             val tmp = line.split(" ")
-            val opponentMove = tmp[0]
-            val myMove = tmp[1]
-            score += evaluateRPSRound(opponentMove, myMove)
+
+            val opponent = mapStrToRPS(tmp[0])!!
+            val me = mapStrToRPS(tmp[1])!!
+
+            score += evaluateRPSRound(opponent, me)
         }
 
         return score
     }
 
     override fun part2(): Any {
-        TODO("Not implemented")
+        var score = 0
+
+        for (line in lines) {
+            val tmp = line.split(" ")
+
+            val opponent = mapStrToRPS(tmp[0])!!
+
+            val me = when (tmp[1]) {
+                // Lose
+                "X" -> when (opponent) {
+                    RPS.ROCK -> RPS.SCISSORS
+                    RPS.PAPER -> RPS.ROCK
+                    RPS.SCISSORS -> RPS.PAPER
+                }
+                // Draw
+                "Y" -> opponent
+                // Win
+                "Z" -> when (opponent) {
+                    RPS.ROCK -> RPS.PAPER
+                    RPS.PAPER -> RPS.SCISSORS
+                    RPS.SCISSORS -> RPS.ROCK
+                }
+                else -> throw IllegalStateException("should not happen lmao")
+            }
+
+            score += evaluateRPSRound(opponent, me)
+        }
+
+        return score
     }
 
 }
