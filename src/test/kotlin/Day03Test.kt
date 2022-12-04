@@ -13,7 +13,7 @@ class Day03Test {
 
     @Test
     fun part2() {
-        // val day = Day03(lines)
-        // TODO("Implement")
+        val day = Day03(lines)
+        assertEquals(70, day.part2())
     }
 }

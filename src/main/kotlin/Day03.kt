@@ -8,14 +8,9 @@ fun main() {
 
 class Day03(private val lines: List<String>) : Day {
 
-    private class Rucksack(contents: String) {
-        private val firstHalf: String
-        private val secondHalf: String
-
-        init {
-            firstHalf = contents.substring(0, contents.length / 2)
-            secondHalf = contents.substring(contents.length / 2, contents.length)
-        }
+    private class Rucksack(private val contents: String) {
+        private val firstHalf: String = contents.substring(0, contents.length / 2)
+        private val secondHalf: String = contents.substring(contents.length / 2, contents.length)
 
         fun findDuplicateItem(): Char? {
             firstHalf.forEach { if (secondHalf.contains(it)) return it }
@@ -34,6 +29,23 @@ class Day03(private val lines: List<String>) : Day {
                 char.code - 38
             }
         }
+
+        fun findCommonRucksackItemPriority(otherSacks: List<Rucksack>): Int {
+            for (char in this.contents) {
+                var otherSacksContainingChar = 0
+                for (sack in otherSacks) {
+                    if (sack.contents.contains(char)) {
+                        otherSacksContainingChar++
+                    }
+                }
+                if (otherSacksContainingChar == otherSacks.size) {
+                    // FOUND
+                    return mapCharToPriority(char)
+                }
+            }
+
+            return 0 // NOT FOUND
+        }
     }
 
     override fun part1(): Any {
@@ -46,7 +58,22 @@ class Day03(private val lines: List<String>) : Day {
     }
 
     override fun part2(): Any {
-        TODO()
+        var total = 0
+        val rucksacks = mutableListOf<Rucksack>()
+        var i = 0
+        for (line in lines) {
+            i++
+            val rucksack = Rucksack(line)
+
+            if (i == 3) {
+                i = 0
+                total += rucksack.findCommonRucksackItemPriority(rucksacks)
+                rucksacks.clear()
+            } else {
+                rucksacks.add(rucksack)
+            }
+        }
+        return total
     }
 
 }
