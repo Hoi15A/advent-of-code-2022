@@ -1,6 +1,6 @@
 fun main() {
     val lines = readFile("Day02", false)
-    val day = Day02(lines)
+    val day = Day03(lines)
 
     println("Solution part 1: ${day.part1()}")
     println("Solution part 2: ${day.part2()}")
