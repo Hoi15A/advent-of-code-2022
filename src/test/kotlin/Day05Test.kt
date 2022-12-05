@@ -13,6 +13,8 @@ class Day05Test {
 
     @Test
     fun part2() {
+        val day = Day05(lines)
 
+        assertEquals("MCD", day.part2())
     }
 }

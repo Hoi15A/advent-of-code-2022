@@ -1,3 +1,4 @@
+import java.util.EmptyStackException
 import java.util.Stack
 
 fun main() {
@@ -60,8 +61,14 @@ class Day05(private val lines: List<String>) : Day {
         return Instruction(lst[1].toInt(), lst[3].toInt() - 1, lst[5].toInt() - 1)
     }
 
+    private fun getTowersCopy(): List<Stack<Char>> {
+        val lst = mutableListOf<Stack<Char>>()
+        towers.forEach { lst.add(it.clone() as Stack<Char>) }
+        return lst
+    }
+
     override fun part1(): Any {
-        val towersCopy = towers.toList()
+        val towersCopy = getTowersCopy()
         instructions.forEach {
             val inst = parseInstruction(it)
             for (i in 1..inst.amount) {
@@ -77,7 +84,21 @@ class Day05(private val lines: List<String>) : Day {
     }
 
     override fun part2(): Any {
-        TODO()
+        val towersCopy = getTowersCopy()
+        instructions.forEach {
+            val inst = parseInstruction(it)
+            val tmp = mutableListOf<Char>()
+            for (i in 1..inst.amount) {
+                tmp.add(towersCopy[inst.start].pop())
+            }
+            tmp.reverse()
+            tmp.forEach { c -> towersCopy[inst.end].push(c) }
+        }
+        var out = ""
+        for (tower in towersCopy) {
+            out += tower.peek()
+        }
+        return out
     }
 
 }
